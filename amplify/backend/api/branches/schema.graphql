@@ -1,0 +1,26 @@
+type Branch
+  @model
+{
+  id: ID!
+  name: String!
+  ancestors: [BranchTree] @connection(keyName: "branchTreeByDescendant", fields: ["id"])
+  descendants: [BranchTree] @connection(keyName: "branchTreeByAncestor", fields: ["id"])
+}
+
+type BranchTree
+  @model
+  @key(name: "branchTreeByAncestor", fields: ["ancestorID"])
+  @key(name: "branchTreeByDescendant", fields: ["descendantID"])
+{
+  ancestor: Branch @connection(fields: ["ancestorID"])
+  ancestorID: ID!
+  descendant: Branch @connection(fields: ["descendantID"])
+  descendantID: ID!
+  depth: Int
+}
+
+type Mutation {
+  createBranchWithLinks(name: String!, ancestorID: ID): Branch @function(name: "branchesOps-${env}")
+  unlinkBranch(id: ID!): [BranchTree] @function(name: "branchesOps-${env}")
+  moveBranch(branchID: ID! newAncestorID: ID!): Branch @function(name: "branchesOps-${env}")
+}

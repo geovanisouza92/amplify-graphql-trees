@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "api": {
+      "branches": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
