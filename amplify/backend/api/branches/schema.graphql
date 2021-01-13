@@ -1,5 +1,8 @@
 type Branch
   @model
+  # @auth(rules: [
+  #   { allow: groups, provider: oidc, identityClaim: "companyId", queries: [get, list] }
+  # ])
 {
   id: ID!
   name: String!
